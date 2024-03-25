@@ -1,0 +1,7 @@
+"./main.obj"
+"./lib/i2c.obj"
+"./lib/oled.obj"
+"./src/rgb_led.obj"
+"./src/ussr.obj"
+"../lnk_msp430g2553.cmd"
+-llibc.a
