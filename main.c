@@ -17,7 +17,7 @@ char RESET_TEXT[] = "I just reset the report";
 void printOLEDText(char text[])
 {
     ssd1306_clearDisplay(); // Clear OLED display
-    ssd1306_printTextBlock(0, 1, text); // Print text on OLED display
+    ssd1306_printText(0, 1, text); // Print text on OLED display
 }
 
 typedef enum
@@ -41,7 +41,7 @@ int main(void)
     i2c_init(); // initialize I2C to use with OLED
     ssd1306_init(); // Initialize OLED
     ssd1306_clearDisplay(); // Clear OLED display
-//    printOLEDText(REPORT_TEXT);
+    printOLEDText(REPORT_TEXT);
 
     __enable_interrupt();
     while (1)
@@ -63,18 +63,18 @@ __interrupt void Timer_A_ISR(void)
         }
         else
         {
-
-            button_state = un_pressed;
-            stopButtonPressTimer();
             switch (robot_state)
             {
             case not_driving:
                 if ((P2IN &= BUTTON) != 0)
                 {
                     printOLEDText(RESET_TEXT);
+                    startButtonPressTimer();
                 }
                 else
                 {
+                    button_state = un_pressed;
+                    stopButtonPressTimer();
                     lightLed(GREEN_LED);
                     robot_state = driving;
                     printOLEDText(DRIVING_TEXT);
@@ -82,6 +82,7 @@ __interrupt void Timer_A_ISR(void)
                 }
                 break;
             case driving:
+                stopButtonPressTimer();
                 robot_state = not_driving;
                 printOLEDText(REPORT_TEXT);
                 break;

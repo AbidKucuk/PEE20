@@ -20,7 +20,6 @@ void lightLed(uint8_t led)
 {
     P1OUT |= led;
     led_state = led_on;
-    ledOnCounter = 0; // Reset timer
     TA0CTL = 0;
     TA0CCTL0 = CCIE; // Enable interrupt for Timer A0 CCRO
     TA0CTL = TASSEL_2 | ID_0 | MC_1; // SMCLK, /1 divider, Up mode, Enable interrupts
