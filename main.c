@@ -9,6 +9,7 @@
 #include "inc/rgb_led.h"
 #include "inc/counter.h"
 #include "inc/direction_identifier.h"
+#include "inc/direction_report.h"
 
 char DRIVING_TEXT[] = "Vroom vrooooooom I am driving fast";
 char DUMMY_NFC_RGB_DUMMY[] = "R: 2 | G: 5 | B: 1";
@@ -35,7 +36,7 @@ int main(void)
     BCSCTL1 = CALBC1_16MHZ; // Set range
     DCOCTL = CALDCO_16MHZ;  // Set DCO step + modulation */
 
-    configureLed(); // Set up RGB LED
+    configureRGBLed(); // Set up RGB LED
     configureUSSR(); // Set up USSR
     configureDirectionIdentifierLEDS(); // Set up direction identifiers
 
@@ -85,8 +86,9 @@ __interrupt void Timer_A_ISR(void)
                         button_state = un_pressed;
                         stopButtonPressTimer();
                         startCounting();
-                        lightLed(GREEN_LED);
+                        lightUpRGBLed(GREEN_LED);
                         robot_state = driving;
+                        report_state = reporting;
                         printOLEDText(DRIVING_TEXT);
 
                     }
@@ -96,6 +98,7 @@ __interrupt void Timer_A_ISR(void)
                 stopButtonPressTimer();
                 stopCounting();
                 robot_state = not_driving;
+                report_state = not_reporting;
                 printOLEDText(DUMMY_NFC_RGB_DUMMY);
                 break;
             }
@@ -104,16 +107,16 @@ __interrupt void Timer_A_ISR(void)
 
         break;
     case un_pressed:
-        if (led_state == led_on)
+        if (rgb_led_state == led_on)
         {
-            if (ledOnCounter < LED_ON_TIME)
+            if (rgbLedOnCounter < RGB_LED_ON_TIME)
             {
-                ledOnCounter++;
+                rgbLedOnCounter++;
             }
 
             else
             {
-                dimLed(GREEN_LED);
+                dimRGBLed(GREEN_LED);
             }
         }
         break;
@@ -130,7 +133,7 @@ void Port_2_ISR(void)
     case not_driving:
     case driving:
         if (((P2IFG &= BUTTON) != 0) && buttonPressCounter == 0
-                && ledOnCounter == 0)
+                && rgbLedOnCounter == 0)
         {
             button_state = pressed;
             startButtonPressTimer();

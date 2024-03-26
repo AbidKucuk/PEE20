@@ -15,26 +15,26 @@
 #define BLUE_LED    BIT0    // P1.0
 
 // For how the LED should be on for
-extern const int LED_ON_TIME;
+extern const int RGB_LED_ON_TIME;
 
 // To count for how long the LED is on
-extern int ledOnCounter;
+extern int rgbLedOnCounter;
 
 typedef enum
 {
     led_on, led_off
-} LED_State;
+} RGB_LED_State;
 
 // Defining the led state
-extern LED_State led_state;
+extern RGB_LED_State rgb_led_state;
 
 // Configure rgb led
-void configureLed(void);
+void configureRGBLed(void);
 
 // Light up led
-void lightLed(uint8_t led);
+void lightUpRGBLed(uint8_t led);
 
 // Turn off led
-void dimLed(uint8_t led);
+void dimRGBLed(uint8_t led);
 
 #endif /* INC_RGB_LED_H_ */

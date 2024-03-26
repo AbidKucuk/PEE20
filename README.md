@@ -1,7 +1,8 @@
 # PEE20
 ## TODO
-- [ ] Add turn indicator logic
 - [ ] Make code coherent with state diagram logic
+- [ ] Add time measurer
+- [ ] Add distance measurer
 - [ ] Add dummy data for unit tests
 - [ ] Refactor code
 
