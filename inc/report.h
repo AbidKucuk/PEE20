@@ -15,5 +15,14 @@ typedef enum
 
 extern Report_State report_state;
 
+extern char TIME_STRING[];
+extern char DISTANCE_STRING[];
+extern char R_STRING[];
+extern char G_STRING[];
+extern char B_STRING[];
+
+
+void report(int time, int distance, int r, int g, int b);
+
 
 #endif /* INC_REPORT_H_ */

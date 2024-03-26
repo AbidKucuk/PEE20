@@ -22,9 +22,16 @@ typedef enum
 // Defining counter state
 extern Counter_State counter_state;
 
+extern int time_counter;
+extern int distance_counter;
+extern int r_nfc_counter;
+extern int g_nfc_counter;
+extern int b_nfc_counter;
+
 
 void startCounting(void);
 void stopCounting(void);
+void resetCounters(void);
 
 
 #endif /* INC_COUNTER_H_ */

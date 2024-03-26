@@ -9,11 +9,14 @@
 #include "inc/rgb_led.h"
 #include "inc/counter.h"
 #include "inc/direction_identifier.h"
-#include "inc/direction_report.h"
+#include "inc/report.h"
 
 char DRIVING_TEXT[] = "Vroom vrooooooom I am driving fast";
-char DUMMY_NFC_RGB_DUMMY[] = "R: 2 | G: 5 | B: 1";
-char DUMMY_NFC_RGB_RESET[] = "R: 0 | G: 0 | B: 0";
+int dummy_time = 538; // In seconds
+int dummy_distance = 44; // In cm
+int dummy_r_count = 2;
+int dummy_g_count = 1;
+int dummy_b_count = 5;
 
 void printOLEDText(char text[])
 {
@@ -38,12 +41,14 @@ int main(void)
 
     configureRGBLed(); // Set up RGB LED
     configureUSSR(); // Set up USSR
-    configureDirectionIdentifierLEDS(); // Set up direction identifiers
 
     i2c_init(); // initialize I2C to use with OLED
     ssd1306_init(); // Initialize OLED
     ssd1306_clearDisplay(); // Clear OLED display
-    printOLEDText(DUMMY_NFC_RGB_RESET);
+
+    configureDirectionIdentifierLEDS(); // Set up direction identifiers
+    report(time_counter, distance_counter, r_nfc_counter, g_nfc_counter,
+           b_nfc_counter);
 
     __enable_interrupt();
     while (1)
@@ -78,7 +83,9 @@ __interrupt void Timer_A_ISR(void)
                     {
                         stopButtonPressTimer();
                         button_state = un_pressed;
-                        printOLEDText(DUMMY_NFC_RGB_RESET);
+                        resetCounters();
+                        report(time_counter, distance_counter, r_nfc_counter,
+                               g_nfc_counter, b_nfc_counter);
                     }
                     else
                     {
@@ -90,7 +97,6 @@ __interrupt void Timer_A_ISR(void)
                         robot_state = driving;
                         report_state = reporting;
                         printOLEDText(DRIVING_TEXT);
-
                     }
                 }
                 break;
@@ -98,8 +104,15 @@ __interrupt void Timer_A_ISR(void)
                 stopButtonPressTimer();
                 stopCounting();
                 robot_state = not_driving;
-                report_state = not_reporting;
-                printOLEDText(DUMMY_NFC_RGB_DUMMY);
+
+                time_counter = dummy_time;
+                distance_counter = dummy_distance;
+                r_nfc_counter = dummy_r_count;
+                g_nfc_counter = dummy_g_count;
+                b_nfc_counter = dummy_b_count;
+
+                report(time_counter, distance_counter, r_nfc_counter,
+                       g_nfc_counter, b_nfc_counter);
                 break;
             }
 

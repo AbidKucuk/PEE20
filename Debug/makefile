@@ -13,6 +13,7 @@ ORDERED_OBJS += \
 "./lib/oled.obj" \
 "./src/counter.obj" \
 "./src/direction_identifier.obj" \
+"./src/report.obj" \
 "./src/rgb_led.obj" \
 "./src/ussr.obj" \
 "../lnk_msp430g2553.cmd" \
@@ -149,8 +150,8 @@ Interface.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "lib/i2c.obj" "lib/oled.obj" "src/counter.obj" "src/direction_identifier.obj" "src/rgb_led.obj" "src/ussr.obj" 
-	-$(RM) "main.d" "lib/i2c.d" "lib/oled.d" "src/counter.d" "src/direction_identifier.d" "src/rgb_led.d" "src/ussr.d" 
+	-$(RM) "main.obj" "lib/i2c.obj" "lib/oled.obj" "src/counter.obj" "src/direction_identifier.obj" "src/report.obj" "src/rgb_led.obj" "src/ussr.obj" 
+	-$(RM) "main.d" "lib/i2c.d" "lib/oled.d" "src/counter.d" "src/direction_identifier.d" "src/report.d" "src/rgb_led.d" "src/ussr.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
