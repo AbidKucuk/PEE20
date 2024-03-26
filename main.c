@@ -10,8 +10,6 @@
 #include "inc/counter.h"
 #include "inc/direction_identifier.h"
 
-const int BUTTON_HOLD_LIMIT = 2000; // If holding button down for x ms reset report counters
-
 char DRIVING_TEXT[] = "Vroom vrooooooom I am driving fast";
 char DUMMY_NFC_RGB_DUMMY[] = "R: 2 | G: 5 | B: 1";
 char DUMMY_NFC_RGB_RESET[] = "R: 0 | G: 0 | B: 0";

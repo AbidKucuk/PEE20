@@ -10,6 +10,7 @@
 
 
 const int BUTTON_PRESS_DELAY = 1000; // Press delay in ms
+const int BUTTON_HOLD_LIMIT = 2000; // If holding button down for x ms reset report counters
 
 int buttonPressCounter = 0; // Set default at 0
 Button_State button_state = un_pressed; // Set default value as un_pressed
