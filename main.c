@@ -7,12 +7,13 @@
 
 #include "inc/ussr.h"
 #include "inc/rgb_led.h"
+#include "inc/counter.h"
 
-const int BUTTON_HOLD_LIMIT = 3; // If holding button down for 3 seconds reset report counters
+const int BUTTON_HOLD_LIMIT = 2000; // If holding button down for x ms reset report counters
 
 char DRIVING_TEXT[] = "Vroom vrooooooom I am driving fast";
-char REPORT_TEXT[] = "Reporting since not driving";
-char RESET_TEXT[] = "I just reset the report";
+char NFC_RGB_DUMMY[] = "R: 2 | G: 5 | B: 1";
+char NFC_RGB_RESET[] = "R: 0 | G: 0 | B: 0";
 
 void printOLEDText(char text[])
 {
@@ -41,7 +42,7 @@ int main(void)
     i2c_init(); // initialize I2C to use with OLED
     ssd1306_init(); // Initialize OLED
     ssd1306_clearDisplay(); // Clear OLED display
-    printOLEDText(REPORT_TEXT);
+    printOLEDText(NFC_RGB_RESET);
 
     __enable_interrupt();
     while (1)
@@ -68,23 +69,35 @@ __interrupt void Timer_A_ISR(void)
             case not_driving:
                 if ((P2IN &= BUTTON) != 0)
                 {
-                    printOLEDText(RESET_TEXT);
-                    startButtonPressTimer();
+                    buttonPressCounter++;
+//                    startButtonPressTimer();
                 }
                 else
                 {
-                    button_state = un_pressed;
-                    stopButtonPressTimer();
-                    lightLed(GREEN_LED);
-                    robot_state = driving;
-                    printOLEDText(DRIVING_TEXT);
+                    if (buttonPressCounter >= BUTTON_HOLD_LIMIT)
+                    {
+                        stopButtonPressTimer();
+                        button_state = un_pressed;
+                        printOLEDText(NFC_RGB_RESET);
+                    }
+                    else
+                    {
+                        button_state = un_pressed;
+                        stopButtonPressTimer();
+                        startCounting();
+                        lightLed(GREEN_LED);
+                        robot_state = driving;
+                        printOLEDText(DRIVING_TEXT);
 
+                    }
                 }
+
                 break;
             case driving:
                 stopButtonPressTimer();
+                stopCounting();
                 robot_state = not_driving;
-                printOLEDText(REPORT_TEXT);
+                printOLEDText(NFC_RGB_DUMMY);
                 break;
             }
 

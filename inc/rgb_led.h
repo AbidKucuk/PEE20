@@ -10,9 +10,9 @@
 
 #include <stdint.h>
 
-#define RED_LED     BIT3    // P1.3
-#define GREEN_LED   BIT2    // P1.2
-#define BLUE_LED    BIT1    // P1.1
+#define RED_LED     BIT2    // P1.2
+#define GREEN_LED   BIT1    // P1.1
+#define BLUE_LED    BIT0    // P1.0
 
 // For how the LED should be on for
 extern const int LED_ON_TIME;
