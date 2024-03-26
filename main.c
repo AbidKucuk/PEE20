@@ -119,6 +119,11 @@ __interrupt void Timer_A_ISR(void)
         }
 
         break;
+        /*
+         * // TODO: Should be a switch(NFC_COMMAND_RGB) or something like that
+         * Which can only be done when integration with NFC unit.
+         * For now the led lights up for 2 seconds when the button is pressed for testing purposes.
+         */
     case un_pressed:
         if (rgb_led_state == led_on)
         {
