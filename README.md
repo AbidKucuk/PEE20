@@ -4,7 +4,7 @@ To be able to test some features of the interface for the unit test without havi
 
 
 TODO:
-- [ ] Refactor all the code
+- [ ] Refactor all the ugly code
 
 
 ## Logic

@@ -89,11 +89,11 @@ __interrupt void Timer_A_ISR(void)
                     }
                     else
                     {
-                        lightDirectionIndentifierLEDS(command_right);
+                        lightDirectionIndentifierLEDS(command_left);
                         button_state = un_pressed;
                         stopButtonPressTimer();
                         startCounting();
-                        lightUpRGBLed(GREEN_LED);
+                        lightUpRGBLed(BLUE_LED);
                         robot_state = driving;
                         report_state = reporting;
                         printOLEDText(DRIVING_TEXT);
@@ -134,7 +134,7 @@ __interrupt void Timer_A_ISR(void)
 
             else
             {
-                dimRGBLed(GREEN_LED);
+                dimRGBLed(BLUE_LED);
             }
         }
         break;
