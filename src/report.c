@@ -27,12 +27,14 @@ void report(int time, int distance, int r, int g, int b)
 {
 
     // This code basically creates the string to display for the OLED
+    // TODO: Remove hard coded memory allocations
     char time_s[14];
     char distance_s[18];
     char r_s[5];
     char g_s[5];
     char b_s[5];
 
+    // Convert int to string
     sprintf(time_s, "%d", time);
     sprintf(distance_s, "%d", distance);
     sprintf(r_s, "%d", r);
@@ -45,6 +47,7 @@ void report(int time, int distance, int r, int g, int b)
     char result_g_s[20];
     char result_b_s[20];
 
+    // Combine counter value with text
     strcpy(result_time_s, TIME_STRING);
     strcat(result_time_s, time_s);
 
@@ -60,7 +63,7 @@ void report(int time, int distance, int r, int g, int b)
     strcpy(result_b_s, B_STRING);
     strcat(result_b_s, b_s);
 
-// Now finally they can get displayed on the OLED
+    // Now finally they can get displayed on the OLED
     ssd1306_clearDisplay();
     ssd1306_printText(0, 1, result_time_s);
     ssd1306_printText(0, 2, result_distance_s);
